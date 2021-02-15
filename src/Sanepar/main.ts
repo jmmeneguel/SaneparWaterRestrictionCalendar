@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface suggestionType {
+export interface suggestionType {
   text: string;
   magicKey: string;
   isCollection: boolean;
@@ -12,7 +12,7 @@ interface locationType {
   spatialReference: { wkid: number };
 }
 
-interface waterRestrictionType {
+export interface waterRestrictionType {
   attributes: {
     OBJECTID: number;
     RETOMADA: number;
@@ -25,7 +25,7 @@ interface waterRestrictionType {
   };
 }
 
-const getSuggestions = async (searchString: string) => {
+export const getSuggestions = async (searchString: string) => {
   const base_url =
     "https://utility.arcgis.com/usrsvcs/servers/b89ba3a68c664268b9bdea76948b4f11/rest/services/World/GeocodeServer/suggest";
 
@@ -109,6 +109,28 @@ const printTimeStamps = (data) => {
   });
 };
 
+export const getWaterRestrictionData = async (singleLineAddress: string) => {
+  console.log(singleLineAddress)
+  let candidates = await findAdressCandidates(singleLineAddress);
+  console.log(candidates)
+
+  let location = candidates.candidates[0].location;
+  location.spatialReference = {
+    wkid: 102100,
+  };
+
+  let codope = await getCodope(location);
+
+  let data = await getByCodope(codope);
+
+  let filteredData = data.features.filter((entry: waterRestrictionType) => {
+    const today = new Date()
+    return today < new Date(entry.attributes.NORMALIZACAO)
+  })
+
+  return filteredData
+};
+
 const main = async () => {
   let suggestions = await getSuggestions("José Clementino Bettega");
   let candidates = await findAdressCandidates(suggestions[0].text);
@@ -125,5 +147,3 @@ const main = async () => {
 
   printTimeStamps(data);
 };
-
-main();
