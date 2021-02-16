@@ -1,6 +1,6 @@
 <template>
-  <div class="window-height window-width row justify-center items-center">
-    <q-card class="my-card" style="width: 50%; min-width: 300px">
+  <div class="window-height window-width column justify-center items-center">
+    <q-card class="q-mb-lg" style="width: 50%; min-width: 300px">
       <q-card-section>
         <div class="text-h6">Rodízio Sanepar</div>
         <div class="text-subtitle2 text-grey-9">{{ address }}</div>
@@ -36,6 +36,7 @@
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
+    <q-btn flat label="Nova pesquisa" />
   </div>
 </template>
 <script lang="ts">
@@ -68,6 +69,8 @@ export default defineComponent({
     this.address = address;
     const waterRestrictionData = await getWaterRestrictionData(address);
     this.allWRStatus = waterRestrictionData
+    localStorage.waterRestrictionData = JSON.stringify(waterRestrictionData)
+    console.log(JSON.parse(localStorage.waterRestrictionData))
     const currentWRStatus = <waterRestrictionType>waterRestrictionData[0];
 
     this.onRestriction =
