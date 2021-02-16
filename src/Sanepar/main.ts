@@ -110,9 +110,19 @@ const printTimeStamps = (data) => {
 };
 
 export const getWaterRestrictionData = async (singleLineAddress: string) => {
-  console.log(singleLineAddress)
-  let candidates = await findAdressCandidates(singleLineAddress);
-  console.log(candidates)
+  let flag = true
+  let candidates
+  // TODO: Replace by for loop
+  while (flag) {
+    try {
+      candidates = await findAdressCandidates(singleLineAddress);
+      flag = false
+    } catch {
+      console.error('erro na requisição dos candidatos')
+    }
+  }
+
+  console.log('candidates', candidates)
 
   let location = candidates.candidates[0].location;
   location.spatialReference = {
