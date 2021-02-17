@@ -6,7 +6,7 @@
     input-debounce="0"
     label="Endereço"
     :options="options"
-    style="width: 250px"
+    style="width: 300px"
     @input-value="getSuggestions"
     @input="getAddress"
     ref="selectComponent"
@@ -14,7 +14,7 @@
     <template v-slot:no-option>
       <q-item>
         <q-item-section class="text-grey">
-          No results
+          Sem sugestões
         </q-item-section>
       </q-item>
     </template>
@@ -40,12 +40,12 @@ export default defineComponent({
         const options = await getSuggestions(val)
         console.log(options)
         this.options = options.map((entry: { text: any; }) => entry.text.trim())
-        this.$refs['selectComponent'].showPopup()
-        this.$refs['selectComponent'].refresh()
+        if (this.options.length > 0) {
+          this.$refs['selectComponent'].showPopup()
+          this.$refs['selectComponent'].refresh()
+        }
       } catch {
         this.options = null
-        this.$refs['selectComponent'].showPopup()
-        this.$refs['selectComponent'].refresh()
       }
     },
     getAddress (val: string) {

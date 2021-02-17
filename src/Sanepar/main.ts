@@ -38,7 +38,7 @@ export const getSuggestions = async (searchString: string) => {
 
   let res = await axios.get(base_url, { params });
   let data = res.data.suggestions;
-  data = data.filter((sug: suggestionType) => sug.text.includes("Curitiba"));
+  data = data.filter((sug: suggestionType) => sug.text.includes("Paraná"));
 
   return data;
 };

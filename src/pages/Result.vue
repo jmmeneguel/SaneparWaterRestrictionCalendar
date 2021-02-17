@@ -14,36 +14,40 @@
       <q-separator />
 
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="status" :class="onRestriction ? 'bg-red-9' : 'bg-green-9'">
-            <q-card-section>
-              <div class="text-h6 text-white">{{ statusString }}</div>
-            </q-card-section>
+        <q-tab-panel
+          name="status"
+          :class="onRestriction ? 'bg-red-9' : 'bg-green-9'"
+        >
+          <q-card-section class="row items-center">
+            <q-icon :name="onRestriction ? 'fas fa-tint-slash' : 'fas fa-tint'" size="sm" color="white" class="q-pa-sm"/>
+            <span class="text-h6 text-white">{{ statusString }}</span>
+          </q-card-section>
 
-            <q-separator dark inset />
+          <q-separator dark inset />
 
-            <q-card-section>
-              <div class="q-pb-sm text-white">
-                {{ nextChange }}
-              </div>
-              <div class="text-white">
-                {{ relativeTime }}
-              </div>
-            </q-card-section>
+          <q-card-section>
+            <div class="q-pb-sm text-white">
+              {{ nextChange }}
+            </div>
+            <div class="text-white">
+              {{ relativeTime }}
+            </div>
+          </q-card-section>
         </q-tab-panel>
 
         <q-tab-panel name="calendar">
-          <Calendar v-bind:data="allWRStatus"/>
+          <Calendar v-bind:data="allWRStatus" />
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
-    <q-btn flat label="Nova pesquisa" />
+    <q-btn flat label="Mudar endereço" @click="changeAddress" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
 import { getWaterRestrictionData, waterRestrictionType } from "../Sanepar/main";
 import moment from "moment";
-import Calendar from '../components/Calendar.vue'
+import Calendar from "../components/Calendar.vue";
 
 export default defineComponent({
   name: "Result",
@@ -53,8 +57,8 @@ export default defineComponent({
       onRestriction: boolean | null;
       currentWRStatus: waterRestrictionType | null;
       allWRStatus: waterRestrictionType[] | null;
-      tab: string
-      address: string
+      tab: string;
+      address: string;
     } = {
       onRestriction: null,
       currentWRStatus: null,
@@ -65,20 +69,21 @@ export default defineComponent({
     return data;
   },
   async created() {
-    const address = this.$route.params.singleLine;
-    this.address = address;
-    const waterRestrictionData = await getWaterRestrictionData(address);
-    this.allWRStatus = waterRestrictionData
-    localStorage.waterRestrictionData = JSON.stringify(waterRestrictionData)
-    console.log(JSON.parse(localStorage.waterRestrictionData))
-    const currentWRStatus = <waterRestrictionType>waterRestrictionData[0];
+    const wrDataUpdate = () => {
+      this.allWRStatus = JSON.parse(localStorage.waterRestrictionData);
+      const currentWRStatus = <waterRestrictionType>this.allWRStatus[0];
+      this.onRestriction =
+        new Date() > new Date(currentWRStatus.attributes.INICIO);
+      this.currentWRStatus = <waterRestrictionType>currentWRStatus;
+    };
 
-    this.onRestriction =
-      new Date() > new Date(currentWRStatus.attributes.INICIO);
-    this.currentWRStatus = <waterRestrictionType>currentWRStatus;
+    wrDataUpdate()
+    this.address = localStorage.address;
+    this.$root.$on("wrDataUpdate", wrDataUpdate);
   },
   methods: {
-    returnToHome() {
+    changeAddress() {
+      localStorage.clear()
       this.$router.push("/");
     }
   },
