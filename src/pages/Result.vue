@@ -1,7 +1,9 @@
 <template>
   <div class="column window-height justify-center">
     <!-- <NotificationsBanner class="col" style="max-height: 200px"/> -->
-    <div class="col-auto window-width column justify-center items-center q-ma-lg">
+    <div
+      class="col-auto window-width column justify-center items-center q-ma-lg"
+    >
       <q-card class="q-mb-lg" style="width: 50%; min-width: 300px">
         <q-card-section>
           <div class="text-h6">Rodízio Sanepar</div>
@@ -11,6 +13,7 @@
         <q-tabs v-model="tab" class="text-teal">
           <q-tab label="Status" name="status" class="text-grey-9" />
           <q-tab label="Calendário" name="calendar" class="text-grey-9" />
+          <q-tab label="Sobre" name="about" class="text-grey-9" />
         </q-tabs>
 
         <q-separator />
@@ -44,6 +47,36 @@
 
           <q-tab-panel name="calendar">
             <Calendar v-bind:data="allWRStatus" />
+          </q-tab-panel>
+
+          <q-tab-panel name="about" style="max-height: 300px">
+            <q-card-section class="row items-center">
+              <div class="row full-width items-center no-wrap">
+                <q-icon name="fab fa-github" size="xs" class="q-pa-sm"/>
+                <div class="text-h6">
+                <a href="https://github.com/jmmeneguel/SaneparWaterRestrictionCalendar" style="text-decoration: none">Sanepar Water Restriction Calendar</a>
+                </div>
+              </div>
+              <div class="q-pt-sm text-h6 full-width">
+              Sobre o projeto
+              </div>
+              Devido a estiagem dos últimos meses na região de Curitiba está sendo realizado o rodízio no fornecimento de água nos bairros da RMC.
+              O objetivo desse projeto é facilitar o acesso às informações da programação do rodízio, estimulando dessa forma o consumo consciente de água para garantir o acesso desse recurso para todos.
+              <div class="q-pt-sm text-h6 full-width">
+              Sobre nós
+              </div>
+              <div class="full-width q-pb-sm">
+              Engenheiros mecânicos que tem o desenvolvimento web como novo hobby.
+              </div>
+              <div class="full-width">
+              Jéssica Meneguel | <a href="https://github.com/jmmeneguel/" style="text-decoration: none">github</a> - <a href="https://www.linkedin.com/in/jessica-meneguel/" style="text-decoration: none">LinkedIn</a>
+              </div>
+              <div class="full-width">
+              Leonardo Sirino | <a href="https://gitlab.com/LeonardoSirino" style="text-decoration: none">gitlab</a> - <a href="https://www.linkedin.com/in/sirinoleonardo/" style="text-decoration: none">LinkedIn</a>
+              </div>
+
+
+            </q-card-section>
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
