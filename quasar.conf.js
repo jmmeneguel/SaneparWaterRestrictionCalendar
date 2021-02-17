@@ -65,7 +65,20 @@ module.exports = configure(function (/* ctx */) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack (cfg) {
-      },
+        /*
+         * we comment out this block
+         *
+        cfg.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /[\\/]node_modules[\\/]/,
+          options: {
+            formatter: require('eslint').CLIEngine.getFormatter('stylish')
+          }
+        })
+        */
+      }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -94,12 +107,12 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['LocalStorage']
     },
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    animations: 'all',
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
@@ -111,8 +124,8 @@ module.exports = configure(function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `RodizioSanepar`,
-        short_name: `RodizioSanepar`,
+        name: `Rodízio Sanepar`,
+        short_name: `Rodízio Sanepar`,
         description: `Aplicativo de consulta do status do fornecimento de água em Curitiba`,
         display: 'standalone',
         orientation: 'portrait',
@@ -178,7 +191,7 @@ module.exports = configure(function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'rodiziosanepar'
+        appId: 'Rodízio Sanepar'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

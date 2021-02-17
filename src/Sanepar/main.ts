@@ -97,7 +97,7 @@ const getByCodope = async (codope: string) => {
   return res.data;
 };
 
-const printTimeStamps = (data) => {
+const printTimeStamps = (data: { features: waterRestrictionType[]; }) => {
   data.features.forEach((entry: waterRestrictionType) => {
     let ts_retomada = new Date(entry.attributes.RETOMADA);
     let ts_init = new Date(entry.attributes.INICIO);

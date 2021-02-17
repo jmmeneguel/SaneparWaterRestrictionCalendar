@@ -19,7 +19,12 @@
           :class="onRestriction ? 'bg-red-9' : 'bg-green-9'"
         >
           <q-card-section class="row items-center">
-            <q-icon :name="onRestriction ? 'fas fa-tint-slash' : 'fas fa-tint'" size="sm" color="white" class="q-pa-sm"/>
+            <q-icon
+              :name="onRestriction ? 'fas fa-tint-slash' : 'fas fa-tint'"
+              size="sm"
+              color="white"
+              class="q-pa-sm"
+            />
             <span class="text-h6 text-white">{{ statusString }}</span>
           </q-card-section>
 
@@ -44,8 +49,9 @@
   </div>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from "@vue/composition-api";
-import { getWaterRestrictionData, waterRestrictionType } from "../Sanepar/main";
+import { waterRestrictionType } from "../Sanepar/main";
 import moment from "moment";
 import Calendar from "../components/Calendar.vue";
 
@@ -55,14 +61,14 @@ export default defineComponent({
   data() {
     const data: {
       onRestriction: boolean | null;
-      currentWRStatus: waterRestrictionType | null;
-      allWRStatus: waterRestrictionType[] | null;
+      currentWRStatus: waterRestrictionType | undefined;
+      allWRStatus: waterRestrictionType[];
       tab: string;
       address: string;
     } = {
       onRestriction: null,
-      currentWRStatus: null,
-      allWRStatus: null,
+      currentWRStatus: undefined,
+      allWRStatus: [],
       tab: "status",
       address: ""
     };
@@ -77,13 +83,13 @@ export default defineComponent({
       this.currentWRStatus = <waterRestrictionType>currentWRStatus;
     };
 
-    wrDataUpdate()
+    wrDataUpdate();
     this.address = localStorage.address;
     this.$root.$on("wrDataUpdate", wrDataUpdate);
   },
   methods: {
     changeAddress() {
-      localStorage.clear()
+      localStorage.clear();
       this.$router.push("/");
     }
   },
@@ -108,7 +114,7 @@ export default defineComponent({
       const timestamp = this.onRestriction
         ? this.currentWRStatus.attributes.NORMALIZACAO
         : this.currentWRStatus.attributes.INICIO;
-      const baseText = this.onRestriction ? "Normalização " : "Interrupção";
+      const baseText = this.onRestriction ? "Normalização " : "Interrupção ";
       return baseText + moment(timestamp).fromNow();
     }
   }

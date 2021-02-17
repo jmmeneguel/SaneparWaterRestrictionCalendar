@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from "@vue/composition-api";
 import SelectAddress from "components/SelectAddress.vue";
 import { getWaterRestrictionData, waterRestrictionType } from "../Sanepar/main";

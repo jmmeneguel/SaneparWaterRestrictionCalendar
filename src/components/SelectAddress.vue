@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from '@vue/composition-api';
 import { getSuggestions } from '../Sanepar/main'
 
@@ -31,7 +32,7 @@ export default defineComponent({
   data () {
     return {
       address: null,
-      options: null
+      options: []
     }
   },
   methods: {
@@ -45,7 +46,7 @@ export default defineComponent({
           this.$refs['selectComponent'].refresh()
         }
       } catch {
-        this.options = null
+        this.options = []
       }
     },
     getAddress (val: string) {

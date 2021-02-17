@@ -2,7 +2,7 @@
   "name": "rodiziosanepar",
   "version": "0.0.1",
   "description": "Aplicativo de consulta do status do fornecimento de água em Curitiba",
-  "productName": "RodizioSanepar",
+  "productName": "Rodízio Sanepar",
   "author": "meneguel <jmmeneguel@gmail.com>",
   "private": true,
   "scripts": {
