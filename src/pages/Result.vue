@@ -1,51 +1,54 @@
 <template>
-  <div class="window-height window-width column justify-center items-center">
-    <q-card class="q-mb-lg" style="width: 50%; min-width: 300px">
-      <q-card-section>
-        <div class="text-h6">Rodízio Sanepar</div>
-        <div class="text-subtitle2 text-grey-9">{{ address }}</div>
-      </q-card-section>
+  <div class="column window-height justify-center">
+    <!-- <NotificationsBanner class="col" style="max-height: 200px"/> -->
+    <div class="col-auto window-width column justify-center items-center q-ma-lg">
+      <q-card class="q-mb-lg" style="width: 50%; min-width: 300px">
+        <q-card-section>
+          <div class="text-h6">Rodízio Sanepar</div>
+          <div class="text-subtitle2 text-grey-9">{{ address }}</div>
+        </q-card-section>
 
-      <q-tabs v-model="tab" class="text-teal">
-        <q-tab label="Status" name="status" class="text-grey-9" />
-        <q-tab label="Calendário" name="calendar" class="text-grey-9" />
-      </q-tabs>
+        <q-tabs v-model="tab" class="text-teal">
+          <q-tab label="Status" name="status" class="text-grey-9" />
+          <q-tab label="Calendário" name="calendar" class="text-grey-9" />
+        </q-tabs>
 
-      <q-separator />
+        <q-separator />
 
-      <q-tab-panels v-model="tab" animated>
-        <q-tab-panel
-          name="status"
-          :class="onRestriction ? 'bg-red-9' : 'bg-green-9'"
-        >
-          <q-card-section class="row items-center">
-            <q-icon
-              :name="onRestriction ? 'fas fa-tint-slash' : 'fas fa-tint'"
-              size="sm"
-              color="white"
-              class="q-pa-sm"
-            />
-            <span class="text-h6 text-white">{{ statusString }}</span>
-          </q-card-section>
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel
+            name="status"
+            :class="onRestriction ? 'bg-red-9' : 'bg-green-9'"
+          >
+            <q-card-section class="row items-center">
+              <q-icon
+                :name="onRestriction ? 'fas fa-tint-slash' : 'fas fa-tint'"
+                size="sm"
+                color="white"
+                class="q-pa-sm"
+              />
+              <span class="text-h6 text-white">{{ statusString }}</span>
+            </q-card-section>
 
-          <q-separator dark inset />
+            <q-separator dark inset />
 
-          <q-card-section>
-            <div class="q-pb-sm text-white">
-              {{ nextChange }}
-            </div>
-            <div class="text-white">
-              {{ relativeTime }}
-            </div>
-          </q-card-section>
-        </q-tab-panel>
+            <q-card-section>
+              <div class="q-pb-sm text-white">
+                {{ nextChange }}
+              </div>
+              <div class="text-white">
+                {{ relativeTime }}
+              </div>
+            </q-card-section>
+          </q-tab-panel>
 
-        <q-tab-panel name="calendar">
-          <Calendar v-bind:data="allWRStatus" />
-        </q-tab-panel>
-      </q-tab-panels>
-    </q-card>
-    <q-btn flat label="Mudar endereço" @click="changeAddress" />
+          <q-tab-panel name="calendar">
+            <Calendar v-bind:data="allWRStatus" />
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-card>
+      <q-btn flat label="Mudar endereço" @click="changeAddress" />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -54,6 +57,7 @@ import { defineComponent } from "@vue/composition-api";
 import { waterRestrictionType } from "../Sanepar/main";
 import moment from "moment";
 import Calendar from "../components/Calendar.vue";
+// import NotificationsBanner from "../components/NotificationsBanner.vue";
 
 export default defineComponent({
   name: "Result",
