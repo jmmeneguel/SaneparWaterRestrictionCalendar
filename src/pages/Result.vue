@@ -52,30 +52,59 @@
           <q-tab-panel name="about" style="max-height: 300px">
             <q-card-section class="row items-center">
               <div class="row full-width items-center no-wrap">
-                <q-icon name="fab fa-github" size="xs" class="q-pa-sm"/>
+                <q-icon name="fab fa-github" size="xs" class="q-pa-sm" />
                 <div class="text-h6">
-                <a href="https://github.com/jmmeneguel/SaneparWaterRestrictionCalendar" style="text-decoration: none">Sanepar Water Restriction Calendar</a>
+                  <a
+                    href="https://github.com/jmmeneguel/SaneparWaterRestrictionCalendar"
+                    style="text-decoration: none"
+                    >Sanepar Water Restriction Calendar</a
+                  >
                 </div>
               </div>
               <div class="q-pt-sm text-h6 full-width">
-              Sobre o projeto
+                Sobre o projeto
               </div>
-              Devido a estiagem dos últimos meses na região de Curitiba está sendo realizado o rodízio no fornecimento de água nos bairros da RMC.
-              O objetivo desse projeto é facilitar o acesso às informações da programação do rodízio, estimulando dessa forma o consumo consciente de água para garantir o acesso desse recurso para todos.
+              Devido a estiagem dos últimos meses na região de Curitiba está
+              sendo realizado o rodízio no fornecimento de água nos bairros da
+              RMC. O objetivo desse projeto é facilitar o acesso às informações
+              da programação do rodízio, estimulando dessa forma o consumo
+              consciente de água para garantir o acesso desse recurso para
+              todos.
               <div class="q-pt-sm text-h6 full-width">
-              Sobre nós
+                Sobre nós
               </div>
               <div class="full-width q-pb-sm">
-              Engenheiros mecânicos que tem o desenvolvimento web como novo hobby.
+                Engenheiros mecânicos que tem o desenvolvimento web como novo
+                hobby.
               </div>
               <div class="full-width">
-              Jéssica Meneguel | <a href="https://github.com/jmmeneguel/" style="text-decoration: none">github</a> - <a href="https://www.linkedin.com/in/jessica-meneguel/" style="text-decoration: none">LinkedIn</a>
+                Jéssica Meneguel |
+                <a
+                  href="https://github.com/jmmeneguel/"
+                  style="text-decoration: none"
+                  >github</a
+                >
+                -
+                <a
+                  href="https://www.linkedin.com/in/jessica-meneguel/"
+                  style="text-decoration: none"
+                  >LinkedIn</a
+                >
               </div>
               <div class="full-width">
-              Leonardo Sirino | <a href="https://gitlab.com/LeonardoSirino" style="text-decoration: none">gitlab</a> - <a href="https://www.linkedin.com/in/sirinoleonardo/" style="text-decoration: none">LinkedIn</a>
+                Leonardo Sirino |
+                <a
+                  href="https://gitlab.com/LeonardoSirino"
+                  style="text-decoration: none"
+                  >gitlab</a
+                >
+                -
+                <a
+                  href="https://www.linkedin.com/in/sirinoleonardo/"
+                  style="text-decoration: none"
+                  >LinkedIn</a
+                >
               </div>
-
-
             </q-card-section>
           </q-tab-panel>
         </q-tab-panels>
@@ -112,17 +141,21 @@ export default defineComponent({
     return data;
   },
   async created() {
-    const wrDataUpdate = () => {
-      this.allWRStatus = JSON.parse(localStorage.waterRestrictionData);
-      const currentWRStatus = <waterRestrictionType>this.allWRStatus[0];
-      this.onRestriction =
-        new Date() > new Date(currentWRStatus.attributes.INICIO);
-      this.currentWRStatus = <waterRestrictionType>currentWRStatus;
-    };
+    if (localStorage.address === undefined) {
+      this.$router.push("/");
+    } else {
+      const wrDataUpdate = () => {
+        this.allWRStatus = JSON.parse(localStorage.waterRestrictionData);
+        const currentWRStatus = <waterRestrictionType>this.allWRStatus[0];
+        this.onRestriction =
+          new Date() > new Date(currentWRStatus.attributes.INICIO);
+        this.currentWRStatus = <waterRestrictionType>currentWRStatus;
+      };
 
-    wrDataUpdate();
-    this.address = localStorage.address;
-    this.$root.$on("wrDataUpdate", wrDataUpdate);
+      wrDataUpdate();
+      this.address = localStorage.address;
+      this.$root.$on("wrDataUpdate", wrDataUpdate);
+    }
   },
   methods: {
     changeAddress() {

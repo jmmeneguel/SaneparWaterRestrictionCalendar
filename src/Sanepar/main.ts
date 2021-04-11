@@ -33,7 +33,7 @@ export const getSuggestions = async (searchString: string) => {
     f: "json",
     text: searchString,
     maxSuggestions: 60,
-    countryCode: "BRA",
+    countryCode: "BRA"
   };
 
   let res = await axios.get(base_url, { params });
@@ -50,12 +50,12 @@ const findAdressCandidates = async (singleLine: string) => {
   const params = {
     f: "json",
     outSR: JSON.stringify({
-      wkid: 102100,
+      wkid: 102100
     }),
     outFields: "*",
     countryCod: "BRA",
     maxLocations: 6,
-    SingleLine: singleLine,
+    SingleLine: singleLine
   };
 
   let res = await axios.get(base_url, { params });
@@ -72,7 +72,7 @@ const getCodope = async (location: locationType) => {
     returnGeometry: false,
     geometryType: "esriGeometryPoint",
     outFields: "*",
-    geometry: JSON.stringify(location),
+    geometry: JSON.stringify(location)
   };
 
   let res = await axios.get(base_url, { params });
@@ -90,14 +90,14 @@ const getByCodope = async (codope: string) => {
     f: "json",
     returnGeometry: false,
     outFields: "*",
-    where: `(CODOPE = '${codope}')`,
+    where: `(CODOPE = '${codope}')`
   };
 
   let res = await axios.get(base_url, { params });
   return res.data;
 };
 
-const printTimeStamps = (data: { features: waterRestrictionType[]; }) => {
+const printTimeStamps = (data: { features: waterRestrictionType[] }) => {
   data.features.forEach((entry: waterRestrictionType) => {
     let ts_retomada = new Date(entry.attributes.RETOMADA);
     let ts_init = new Date(entry.attributes.INICIO);
@@ -110,23 +110,23 @@ const printTimeStamps = (data: { features: waterRestrictionType[]; }) => {
 };
 
 export const getWaterRestrictionData = async (singleLineAddress: string) => {
-  let flag = true
-  let candidates
+  let flag = true;
+  let candidates;
   // TODO: Replace by for loop
   while (flag) {
     try {
       candidates = await findAdressCandidates(singleLineAddress);
-      flag = false
+      flag = false;
     } catch {
-      console.error('erro na requisição dos candidatos')
+      console.error("erro na requisição dos candidatos");
     }
   }
 
-  console.log('candidates', candidates)
+  console.log("candidates", candidates);
 
   let location = candidates.candidates[0].location;
   location.spatialReference = {
-    wkid: 102100,
+    wkid: 102100
   };
 
   let codope = await getCodope(location);
@@ -134,11 +134,15 @@ export const getWaterRestrictionData = async (singleLineAddress: string) => {
   let data = await getByCodope(codope);
 
   let filteredData = data.features.filter((entry: waterRestrictionType) => {
-    const today = new Date()
-    return today < new Date(entry.attributes.NORMALIZACAO)
-  })
+    const today = new Date();
+    return today < new Date(entry.attributes.NORMALIZACAO);
+  });
 
-  return filteredData
+  filteredData.sort(function(a: waterRestrictionType, b: waterRestrictionType) {
+    return a.attributes.INICIO > b.attributes.INICIO ? 1 : -1;
+  });
+
+  return filteredData;
 };
 
 const main = async () => {
@@ -147,7 +151,7 @@ const main = async () => {
 
   let location = candidates.candidates[0].location;
   location.spatialReference = {
-    wkid: 102100,
+    wkid: 102100
   };
 
   let codope = await getCodope(location);
